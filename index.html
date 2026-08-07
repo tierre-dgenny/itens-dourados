@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Itens para venda — mudança para Dourados/MS</title>
+<style>
+  :root{
+    --paper:#f2ece1;
+    --paper-2:#e9e0d1;
+    --ink:#2b2620;
+    --ink-soft:#5c5346;
+    --tag:#8a5a2b;
+    --tag-dark:#6b431e;
+    --card:#fffdf9;
+    --accent:#4f6b52;
+    --line:#c9bda3;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.5;
+  }
+  .display{
+    font-family:Georgia,"Iowan Old Style","Times New Roman",serif;
+  }
+  header{
+    padding:56px 24px 40px;
+    max-width:1080px;
+    margin:0 auto;
+    border-bottom:1px solid var(--line);
+  }
+  .eyebrow{
+    font-size:12px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--tag);
+    font-weight:700;
+    margin-bottom:14px;
+  }
+  h1{
+    font-size:clamp(28px,4.4vw,44px);
+    margin:0 0 12px;
+    font-weight:400;
+    letter-spacing:-0.01em;
+  }
+  header p.sub{
+    color:var(--ink-soft);
+    font-size:16px;
+    max-width:640px;
+    margin:0 0 22px;
+  }
+  .meta-row{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px 22px;
+    font-size:13px;
+    color:var(--ink-soft);
+  }
+  .meta-row strong{color:var(--ink);}
+  main{
+    max-width:1080px;
+    margin:0 auto;
+    padding:36px 24px 80px;
+  }
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(240px,1fr));
+    gap:22px;
+  }
+  .card{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:2px;
+    overflow:hidden;
+    display:flex;
+    flex-direction:column;
+    position:relative;
+    box-shadow:0 1px 0 rgba(43,38,32,.04);
+  }
+  .photo-wrap{
+    position:relative;
+    aspect-ratio:4/3;
+    background:var(--paper-2);
+    overflow:hidden;
+  }
+  .photo-wrap img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+  }
+  .no-photo{
+    width:100%;height:100%;
+    display:flex;align-items:center;justify-content:center;
+    color:var(--ink-soft);
+    font-size:12px;
+    letter-spacing:.05em;
+    text-align:center;
+    padding:12px;
+  }
+  .tag{
+    position:absolute;
+    top:10px;
+    right:-6px;
+    background:var(--tag);
+    color:#fff;
+    font-family:Georgia,serif;
+    font-size:13px;
+    padding:6px 14px 6px 12px;
+    border-radius:2px 0 0 2px;
+    box-shadow:-2px 2px 4px rgba(0,0,0,.15);
+  }
+  .tag::after{
+    content:"";
+    position:absolute;
+    right:-6px;
+    top:0;
+    border-style:solid;
+    border-width:0 6px 6px 0;
+    border-color:transparent var(--tag-dark) transparent transparent;
+    transform:rotate(0deg);
+    display:none;
+  }
+  .body{
+    padding:16px 16px 18px;
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+    flex:1;
+  }
+  .name{
+    font-family:Georgia,serif;
+    font-size:16.5px;
+    line-height:1.3;
+    margin:0;
+  }
+  .note{
+    font-size:12.5px;
+    color:var(--ink-soft);
+    margin:0;
+    flex:1;
+  }
+  .price-row{
+    display:flex;
+    align-items:baseline;
+    justify-content:space-between;
+    border-top:1px dashed var(--line);
+    padding-top:10px;
+    margin-top:auto;
+  }
+  .price{
+    font-family:Georgia,serif;
+    font-size:19px;
+    font-weight:700;
+    color:var(--tag-dark);
+  }
+  .price small{
+    font-size:11px;
+    font-weight:400;
+    color:var(--ink-soft);
+    display:block;
+    font-family:-apple-system,sans-serif;
+  }
+  .status{
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:.06em;
+    color:var(--accent);
+    font-weight:600;
+  }
+  .status.vendido{color:#a34a3a;}
+  .status.reservado{color:#a3762f;}
+
+  footer.totals{
+    margin-top:48px;
+    border-top:1px solid var(--line);
+    padding-top:24px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:24px 48px;
+    align-items:flex-end;
+    justify-content:space-between;
+  }
+  .totals .num{
+    font-family:Georgia,serif;
+    font-size:32px;
+    color:var(--tag-dark);
+  }
+  .totals .lbl{
+    font-size:12px;
+    color:var(--ink-soft);
+    text-transform:uppercase;
+    letter-spacing:.06em;
+  }
+  .howto{
+    font-size:13px;
+    color:var(--ink-soft);
+    max-width:420px;
+  }
+  .contact-band{
+    margin-top:28px;
+    padding:18px 20px;
+    background:var(--paper-2);
+    border:1px dashed var(--line);
+    border-radius:2px;
+    font-size:14px;
+  }
+  .contact-band strong{color:var(--ink);}
+  @media (max-width:520px){
+    header{padding:40px 18px 28px;}
+    main{padding:28px 18px 60px;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="eyebrow">Venda de itens usados</div>
+  <h1 class="display">Mudança para Dourados, MS</h1>
+  <p class="sub">Catálogo com fotos e preços dos móveis e eletrodomésticos disponíveis. Todos os itens têm o estado de conservação descrito — atualizamos aqui conforme os itens forem vendidos.</p>
+  <div class="meta-row">
+    <span><strong>Última atualização:</strong> <span id="updated-date"></span></span>
+    <span><strong>Local:</strong> Dourados/MS</span>
+    <span><strong>Itens:</strong> <span id="item-count"></span></span>
+  </div>
+</header>
+
+<main>
+  <div class="grid" id="grid"></div>
+
+  <footer class="totals">
+    <div>
+      <div class="lbl">Faixa total (todos os itens disponíveis)</div>
+      <div class="num" id="total-range">—</div>
+    </div>
+    <p class="howto">Preços estimados considerando idade, valor pago quando informado, e estado de conservação de cada peça. Valores podem ser negociados por item.</p>
+  </footer>
+
+  <div class="contact-band">
+    <strong>Interessado?</strong> Chame no WhatsApp ou responda por aqui mesmo informando o nome do item. Itens marcados como <em>reservado</em> ou <em>vendido</em> já não estão disponíveis.
+  </div>
+</main>
+
+<script>
+// ---- Dados: edite este array para atualizar o catálogo ----
+// status: "disponivel" | "reservado" | "vendido"
+const items = [
+  {
+    name: "Guarda-roupa grande (unidade 1)",
+    note: "Comprado novo em 2022. Possui uma fissura em uma das partes, sem comprometer o uso. 5 portas + gavetas.",
+    photo: "images/guarda-roupa-1.jpg",
+    min: 250, max: 450, status: "disponivel"
+  },
+  {
+    name: "Guarda-roupa (unidade 2)",
+    note: "Pequenas avarias (gavetas desencaixadas, serão consertadas) que não comprometem o funcionamento.",
+    photo: null,
+    min: 280, max: 500, status: "disponivel"
+  },
+  {
+    name: "Cômoda / criado-mudo",
+    note: "2 unidades, madeira maciça, com gavetas.",
+    photo: "images/comoda.jpg",
+    min: 120, max: 240, status: "disponivel"
+  },
+  {
+    name: "Mesa de escritório",
+    note: "Estrutura metálica, tampo preto.",
+    photo: "images/mesa-escritorio.jpg",
+    min: 80, max: 140, status: "disponivel"
+  },
+  {
+    name: "Mesa de jantar com 4 cadeiras",
+    note: "Madeira, vendida sem os itens que aparecem em cima na foto.",
+    photo: null,
+    min: 450, max: 800, status: "disponivel"
+  },
+  {
+    name: "Sapateira de madeira",
+    note: "4 prateleiras.",
+    photo: "images/sapateira.jpg",
+    min: 60, max: 110, status: "disponivel"
+  },
+  {
+    name: "Sofá 2/3 lugares",
+    note: "Suede, com manta.",
+    photo: "images/sofa.jpg",
+    min: 250, max: 450, status: "disponivel"
+  },
+  {
+    name: "Rack de TV + TV Smart",
+    note: "Rack de madeira; TV Smart de aprox. 32\", funcionando.",
+    photo: "images/tv-rack.jpg",
+    min: 430, max: 700, status: "disponivel"
+  },
+  {
+    name: "Cama box solteiro",
+    note: "Uso regular.",
+    photo: null,
+    min: 150, max: 300, status: "disponivel"
+  },
+  {
+    name: "Cama box casal c/ baú",
+    note: "Colchão Probel Imperial Soft. Comprada nova em 09/2024 por R$5.000.",
+    photo: null,
+    min: 2200, max: 3200, status: "disponivel"
+  },
+  {
+    name: "Máquina de lavar Consul Facilite 10kg",
+    note: "Funcionando, com sinais normais de uso.",
+    photo: "images/maquina-lavar.jpg",
+    min: 400, max: 650, status: "disponivel"
+  },
+  {
+    name: "Geladeira Consul (frost free)",
+    note: "Comprada nova em 2021. Todas as peças originais, nunca foi consertada.",
+    photo: "images/geladeira.jpg",
+    min: 450, max: 750, status: "disponivel"
+  },
+  {
+    name: "Ar-condicionado Split TCL 12k BTU Inverter",
+    note: "Comprado novo em 09/2024 por R$2.600.",
+    photo: "images/ar-tcl.jpg",
+    min: 1300, max: 1650, status: "disponivel"
+  },
+  {
+    name: "Ar-condicionado Split Electrolux 9k BTU",
+    note: "Não inverter. Comprado novo em 09/2024.",
+    photo: null,
+    min: 650, max: 900, status: "disponivel"
+  },
+  {
+    name: "Cooktop 5 bocas Fischer",
+    note: "Comprado novo em 07/2025.",
+    photo: null,
+    min: 550, max: 750, status: "disponivel"
+  },
+  {
+    name: "Cadeira de escritório giratória",
+    note: "2 unidades, compradas novas a R$250 cada.",
+    photo: "images/cadeira.jpg",
+    min: 200, max: 320, status: "disponivel"
+  },
+];
+
+const fmt = n => n.toLocaleString('pt-BR', {style:'currency', currency:'BRL', maximumFractionDigits:0});
+
+const grid = document.getElementById('grid');
+let totalMin = 0, totalMax = 0, availableCount = 0;
+
+items.forEach(item => {
+  const card = document.createElement('div');
+  card.className = 'card';
+
+  const photoHtml = item.photo
+    ? `<img src="${item.photo}" alt="${item.name}" loading="lazy">`
+    : `<div class="no-photo">Foto em atualização</div>`;
+
+  const statusLabel = {
+    disponivel: "Disponível",
+    reservado: "Reservado",
+    vendido: "Vendido"
+  }[item.status];
+
+  card.innerHTML = `
+    <div class="photo-wrap">
+      ${photoHtml}
+      <div class="tag">${fmt(item.min)}–${fmt(item.max)}</div>
+    </div>
+    <div class="body">
+      <p class="name">${item.name}</p>
+      <p class="note">${item.note}</p>
+      <div class="price-row">
+        <div class="price">${fmt(item.min)} <small>até ${fmt(item.max)}</small></div>
+        <div class="status ${item.status}">${statusLabel}</div>
+      </div>
+    </div>
+  `;
+  grid.appendChild(card);
+
+  if(item.status === 'disponivel'){
+    totalMin += item.min;
+    totalMax += item.max;
+    availableCount++;
+  }
+});
+
+document.getElementById('total-range').textContent = `${fmt(totalMin)} – ${fmt(totalMax)}`;
+document.getElementById('item-count').textContent = `${availableCount} disponíveis de ${items.length}`;
+document.getElementById('updated-date').textContent = new Date().toLocaleDateString('pt-BR', {day:'2-digit', month:'long', year:'numeric'});
+</script>
+
+</body>
+</html>
