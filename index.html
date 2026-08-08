@@ -265,7 +265,7 @@ const items = [
     name: "Cômoda / criado-mudo",
     note: "2 unidades, madeira maciça, com gavetas.",
     photo: "images/comoda.jpg",
-    min: 120, max: 240, status: "disponivel"
+    min: 200, max: 350, status: "disponivel"
   },
   {
     name: "Mesa de escritório",
@@ -281,21 +281,27 @@ const items = [
   },
   {
     name: "Sapateira de madeira",
-    note: "4 prateleiras.",
+    note: "Grande e alta, 4 prateleiras.",
     photo: "images/sapateira.jpg",
-    min: 60, max: 110, status: "disponivel"
+    min: 150, max: 250, status: "disponivel"
   },
   {
-    name: "Sofá 2/3 lugares",
-    note: "Suede, com manta.",
+    name: "Sofá retrátil 2/3 lugares",
+    note: "Suede, retrátil e reclinável — vira cama. Com manta.",
     photo: "images/sofa.jpg",
-    min: 250, max: 450, status: "disponivel"
+    min: 600, max: 950, status: "disponivel"
   },
   {
-    name: "Rack de TV + TV Smart",
-    note: "Rack de madeira; TV Smart de aprox. 32\", funcionando.",
+    name: "Rack de TV",
+    note: "Rack de madeira.",
     photo: "images/tv-rack.jpg",
-    min: 430, max: 700, status: "disponivel"
+    min: 100, max: 100, status: "disponivel"
+  },
+  {
+    name: "TV Smart ~32\"",
+    note: "Comprada em 2024 por R$500. Funcionando.",
+    photo: null,
+    min: 250, max: 350, status: "disponivel"
   },
   {
     name: "Cama box solteiro",
@@ -366,16 +372,22 @@ items.forEach(item => {
     vendido: "Vendido"
   }[item.status];
 
+  const isFixed = item.min === item.max;
+  const tagText = isFixed ? fmt(item.min) : `${fmt(item.min)}–${fmt(item.max)}`;
+  const priceHtml = isFixed
+    ? `<div class="price">${fmt(item.min)} <small>preço fixo</small></div>`
+    : `<div class="price">${fmt(item.min)} <small>até ${fmt(item.max)}</small></div>`;
+
   card.innerHTML = `
     <div class="photo-wrap">
       ${photoHtml}
-      <div class="tag">${fmt(item.min)}–${fmt(item.max)}</div>
+      <div class="tag">${tagText}</div>
     </div>
     <div class="body">
       <p class="name">${item.name}</p>
       <p class="note">${item.note}</p>
       <div class="price-row">
-        <div class="price">${fmt(item.min)} <small>até ${fmt(item.max)}</small></div>
+        ${priceHtml}
         <div class="status ${item.status}">${statusLabel}</div>
       </div>
     </div>
