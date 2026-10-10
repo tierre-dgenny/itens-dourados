@@ -142,5 +142,13 @@
     "min": 9000,
     "max": 9000,
     "status": "disponivel"
+  },
+  {
+    "name": "Micro-ondas Philco 110V",
+    "note": "Voltagem 110V.",
+    "photo": null,
+    "min": 200,
+    "max": 200,
+    "status": "disponivel"
   }
 ]
