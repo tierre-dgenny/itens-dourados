@@ -150,5 +150,13 @@
     "min": 200,
     "max": 200,
     "status": "disponivel"
+  },
+  {
+    "name": "Lote de utensílios de cozinha",
+    "note": "Panelas, talheres, potes e formas. Vendido somente o lote inteiro.",
+    "photo": null,
+    "min": 200,
+    "max": 200,
+    "status": "disponivel"
   }
 ]
