@@ -17,10 +17,10 @@
   },
   {
     "name": "Cômoda / criado-mudo",
-    "note": "2 unidades, madeira maciça, com gavetas.",
+    "note": "2 unidades, madeira maciça, com gavetas. R$ 200 cada unidade.",
     "photo": "images/comoda.jpg",
     "min": 200,
-    "max": 350,
+    "max": 200,
     "status": "disponivel"
   },
   {
@@ -35,8 +35,8 @@
     "name": "Mesa de jantar com 4 cadeiras",
     "note": "Madeira, vendida sem os itens que aparecem em cima na foto.",
     "photo": null,
-    "min": 450,
-    "max": 800,
+    "min": 600,
+    "max": 600,
     "status": "disponivel"
   },
   {
