@@ -110,8 +110,7 @@
     "photo": "images/ar-tcl.jpg",
     "min": 1300,
     "max": 1650,
-    "status": "reservado",
-    "reservedFor": "Letícia"
+    "status": "disponivel"
   },
   {
     "name": "Ar-condicionado Split Electrolux 9k BTU",
