@@ -134,5 +134,13 @@
     "min": 100,
     "max": 100,
     "status": "disponivel"
+  },
+  {
+    "name": "Moto Honda Biz+ 2009/2009",
+    "note": "Ano e modelo 2009.",
+    "photo": null,
+    "min": 9000,
+    "max": 9000,
+    "status": "disponivel"
   }
 ]
