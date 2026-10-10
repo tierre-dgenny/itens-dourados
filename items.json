@@ -69,7 +69,8 @@
     "photo": null,
     "min": 250,
     "max": 350,
-    "status": "reservado"
+    "status": "reservado",
+    "reservedFor": "Fernando"
   },
   {
     "name": "Cama box solteiro",
@@ -109,7 +110,8 @@
     "photo": "images/ar-tcl.jpg",
     "min": 1300,
     "max": 1650,
-    "status": "disponivel"
+    "status": "reservado",
+    "reservedFor": "Letícia"
   },
   {
     "name": "Ar-condicionado Split Electrolux 9k BTU",
@@ -117,7 +119,8 @@
     "photo": null,
     "min": 650,
     "max": 900,
-    "status": "reservado"
+    "status": "reservado",
+    "reservedFor": "Letícia"
   },
   {
     "name": "Cooktop 5 bocas Fischer",

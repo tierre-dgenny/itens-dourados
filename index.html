@@ -291,7 +291,7 @@ items.forEach(item => {
       <p class="note">${item.note}</p>
       <div class="price-row">
         ${priceHtml}
-        <div class="status ${item.status}">${statusLabel}</div>
+        <div class="status ${item.status}">${statusLabel}${item.status === "reservado" && item.reservedFor ? " para " + item.reservedFor : ""}</div>
       </div>
     </div>
   `;
