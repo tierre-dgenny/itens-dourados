@@ -2,6 +2,9 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Móveis a Venda - Motivo: mudança</title>
 <style>
@@ -246,113 +249,10 @@
 </main>
 
 <script>
-// ---- Dados: edite este array para atualizar o catálogo ----
+// ---- Dados: ficam em items.json (carregado sempre fresco, sem cache) ----
 // status: "disponivel" | "reservado" | "vendido"
-const items = [
-  {
-    name: "Guarda-roupa grande (unidade 1)",
-    note: "Comprado novo em 2022. Possui uma fissura em uma das partes, sem comprometer o uso. 5 portas + gavetas.",
-    photo: "images/guarda-roupa-1.jpg",
-    min: 700, max: 700, status: "disponivel"
-  },
-  {
-    name: "Guarda-roupa (unidade 2)",
-    note: "Pequenas avarias (gavetas desencaixadas, serão consertadas) que não comprometem o funcionamento.",
-    photo: null,
-    min: 280, max: 500, status: "disponivel"
-  },
-  {
-    name: "Cômoda / criado-mudo",
-    note: "2 unidades, madeira maciça, com gavetas.",
-    photo: "images/comoda.jpg",
-    min: 200, max: 350, status: "disponivel"
-  },
-  {
-    name: "Mesa de escritório",
-    note: "Estrutura metálica, tampo preto.",
-    photo: "images/mesa-escritorio.jpg",
-    min: 80, max: 140, status: "disponivel"
-  },
-  {
-    name: "Mesa de jantar com 4 cadeiras",
-    note: "Madeira, vendida sem os itens que aparecem em cima na foto.",
-    photo: null,
-    min: 450, max: 800, status: "disponivel"
-  },
-  {
-    name: "Sapateira de madeira",
-    note: "Grande e alta, 4 prateleiras.",
-    photo: "images/sapateira.jpg",
-    min: 150, max: 250, status: "disponivel"
-  },
-  {
-    name: "Sofá retrátil 2/3 lugares",
-    note: "Suede, retrátil e reclinável — vira cama. Com manta. Medidas: 2,30 m × 1,80 m (estendido).",
-    photo: "images/sofa.jpg",
-    min: 600, max: 950, status: "disponivel"
-  },
-  {
-    name: "Rack de TV",
-    note: "Rack de madeira.",
-    photo: "images/tv-rack.jpg",
-    min: 100, max: 100, status: "disponivel"
-  },
-  {
-    name: "TV Smart Ecopower ~32\" (Android)",
-    note: "Sistema Android. Comprada em 2024 por R$500. Funcionando. Acompanha controle.",
-    photo: null,
-    min: 250, max: 350, status: "reservado"
-  },
-  {
-    name: "Cama box solteiro",
-    note: "Comprada em 2025 por R$1.200.",
-    photo: null,
-    min: 700, max: 950, status: "disponivel"
-  },
-  {
-    name: "Cama box casal c/ baú",
-    note: "Colchão Probel Imperial Soft. Comprada nova em 09/2024 por R$5.000.",
-    photo: null,
-    min: 2200, max: 3200, status: "disponivel"
-  },
-  {
-    name: "Máquina de lavar Consul Facilite 10kg",
-    note: "Funcionando, com sinais normais de uso.",
-    photo: "images/maquina-lavar.jpg",
-    min: 400, max: 650, status: "disponivel"
-  },
-  {
-    name: "Geladeira Consul (frost free)",
-    note: "Comprada nova em 2021. Todas as peças originais, nunca foi consertada.",
-    photo: "images/geladeira.jpg",
-    min: 450, max: 750, status: "disponivel"
-  },
-  {
-    name: "Ar-condicionado Split TCL 9k BTU Inverter (branco)",
-    note: "Comprado novo em 09/2024 por R$2.600. Acompanha controle. Única dona.",
-    photo: "images/ar-tcl.jpg",
-    min: 1300, max: 1650, status: "disponivel"
-  },
-  {
-    name: "Ar-condicionado Split Electrolux 9k BTU",
-    note: "Não inverter. Comprado novo em 09/2024.",
-    photo: null,
-    min: 650, max: 900, status: "reservado"
-  },
-  {
-    name: "Cooktop 5 bocas Fischer",
-    note: "Comprado novo em 07/2025.",
-    photo: null,
-    min: 550, max: 750, status: "disponivel"
-  },
-  {
-    name: "Cadeira de escritório giratória",
-    note: "2 unidades, compradas novas a R$250 cada.",
-    photo: "images/cadeira.jpg",
-    min: 200, max: 320, status: "disponivel"
-  },
-];
 
+function render(items){
 const fmt = n => n.toLocaleString('pt-BR', {style:'currency', currency:'BRL', maximumFractionDigits:0});
 
 const grid = document.getElementById('grid');
@@ -404,6 +304,12 @@ items.forEach(item => {
 document.getElementById('total-range').textContent = `${fmt(totalMin)} – ${fmt(totalMax)}`;
 document.getElementById('item-count').textContent = `${availableCount} disponíveis de ${items.length}`;
 document.getElementById('updated-date').textContent = new Date().toLocaleDateString('pt-BR', {day:'2-digit', month:'long', year:'numeric'});
+}
+
+fetch('items.json?t=' + Date.now(), {cache:'no-store'})
+  .then(r => { if(!r.ok) throw new Error(r.status); return r.json(); })
+  .then(render)
+  .catch(() => { document.getElementById('grid').innerHTML = '<p>Não foi possível carregar os itens. Atualize a página.</p>'; });
 </script>
 
 </body>
