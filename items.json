@@ -33,6 +33,21 @@
     "reservedFor": "Thalita"
   },
   {
+    "name": "Escrivaninha branca",
+    "note": "MDF branco, com gaveta grande e prateleira inferior. Pequenas marcas de uso no tampo.",
+    "photo": "images/escrivaninha-branca-1.jpg",
+    "photos": [
+      "images/escrivaninha-branca-1.jpg",
+      "images/escrivaninha-branca-2.jpg",
+      "images/escrivaninha-branca-3.jpg",
+      "images/escrivaninha-branca-4.jpg",
+      "images/escrivaninha-branca-5.jpg"
+    ],
+    "min": 150,
+    "max": 150,
+    "status": "disponivel"
+  },
+  {
     "name": "Mesa de jantar com 4 cadeiras",
     "note": "Madeira, vendida sem os itens que aparecem em cima na foto.",
     "photo": "images/mesa-jantar.jpg",
