@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<title>Termo de Compra, Venda e Entrega</title>
+<style>
+  :root{--ink:#222;--soft:#555;--line:#c9c2b6;--bg:#f2ece1;--accent:#7a4e1d;--green:#25D366;}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;}
+  .wrap{max-width:880px;margin:0 auto;padding:16px;}
+  h2{font-size:18px;margin:4px 0 12px;color:var(--accent)}
+  .form{background:#fff;border:1px solid var(--line);padding:16px;border-radius:8px;margin-bottom:20px;}
+  .form fieldset{border:0;padding:0;margin:0 0 14px}
+  .form legend{font-weight:700;font-size:14px;text-transform:uppercase;letter-spacing:.05em;color:var(--accent);margin-bottom:4px}
+  label{display:block;font-size:13px;margin:10px 0 4px;font-weight:600}
+  input,select,textarea{width:100%;padding:10px;font-size:15px;border:1px solid var(--line);border-radius:6px;background:#fff;color:var(--ink);font-family:inherit}
+  .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  @media(max-width:600px){.row{grid-template-columns:1fr}}
+  .items{max-height:340px;overflow:auto;border:1px solid var(--line);border-radius:6px;padding:4px 8px}
+  .it{display:grid;grid-template-columns:24px 1fr 120px;gap:8px;align-items:center;padding:8px 0;border-bottom:1px dashed #e3ddd2;font-size:14px}
+  .it:last-child{border-bottom:0}
+  .it input[type=checkbox]{width:20px;height:20px}
+  .it small{color:var(--soft);display:block}
+  .it input[type=number]{padding:6px}
+  .summary{margin-top:12px;padding:10px 12px;background:#f7f3ec;border-radius:6px;font-size:15px;line-height:1.7}
+  .summary b{font-variant-numeric:tabular-nums}
+  .btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+  .btn{border:0;border-radius:999px;padding:12px 20px;font-size:15px;font-weight:700;cursor:pointer;background:var(--accent);color:#fff}
+  .btn.alt{background:#fff;color:var(--accent);border:2px solid var(--accent)}
+  .hint{font-size:13px;color:var(--soft);margin-top:8px}
+
+  .doc{background:#fff;padding:40px 44px;border:1px solid var(--line);font-family:Georgia,"Times New Roman",serif;font-size:14px;line-height:1.6;color:#111}
+  .doc h1{text-align:center;font-size:17px;text-transform:uppercase;letter-spacing:.04em;margin:0 0 4px}
+  .doc .num{text-align:center;font-size:12px;color:#555;margin-bottom:22px}
+  .doc h3{font-size:14px;text-transform:uppercase;margin:20px 0 6px}
+  .doc p{margin:6px 0;text-align:justify}
+  .parties td{padding:3px 6px;vertical-align:top}
+  .item-box{display:flex;gap:14px;border:1px solid #999;padding:10px;margin:10px 0;break-inside:avoid;page-break-inside:avoid}
+  .item-box img{width:170px;height:128px;object-fit:cover;border:1px solid #ccc;flex-shrink:0}
+  .item-box .nophoto{width:170px;height:128px;border:1px dashed #999;display:flex;align-items:center;justify-content:center;font-size:12px;color:#777;flex-shrink:0;text-align:center}
+  .item-box .t{font-weight:700}
+  table.vals{width:100%;border-collapse:collapse;margin:8px 0;break-inside:avoid}
+  table.vals td{border:1px solid #888;padding:7px 10px}
+  table.vals td:last-child{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+  table.vals tr.hl td{font-weight:700;background:#f3f3f3}
+  .blank{display:inline-block;min-width:180px;border-bottom:1px solid #000}
+  .sign{display:grid;grid-template-columns:1fr 1fr;gap:40px;margin-top:56px;break-inside:avoid}
+  .sign div{border-top:1px solid #000;text-align:center;padding-top:6px;font-size:13px}
+  @media(max-width:600px){.doc{padding:20px 16px}.item-box{flex-direction:column}.item-box img,.item-box .nophoto{width:100%;height:auto;aspect-ratio:4/3}.sign{grid-template-columns:1fr}}
+  @media print{
+    body{background:#fff}
+    .form,.noprint{display:none!important}
+    .wrap{padding:0;max-width:none}
+    .doc{border:0;padding:0;font-size:12.5px}
+    @page{margin:16mm}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="form noprint">
+  <h2>Gerar termo de compra, venda e entrega</h2>
+
+  <fieldset>
+    <legend>Vendedor</legend>
+    <div class="row">
+      <div><label for="vNome">Nome completo</label><input id="vNome" value="Tierre"></div>
+      <div><label for="vCpf">CPF</label><input id="vCpf" placeholder="000.000.000-00" inputmode="numeric"></div>
+    </div>
+  </fieldset>
+
+  <fieldset>
+    <legend>Comprador</legend>
+    <div class="row">
+      <div><label for="cNome">Nome completo</label><input id="cNome"></div>
+      <div><label for="cCpf">CPF</label><input id="cCpf" placeholder="000.000.000-00" inputmode="numeric"></div>
+    </div>
+    <label for="cTel">Telefone / WhatsApp</label><input id="cTel" inputmode="tel">
+  </fieldset>
+
+  <fieldset>
+    <legend>Itens vendidos</legend>
+    <div class="items" id="items">Carregando itens…</div>
+    <p class="hint">Marque o(s) item(ns) e ajuste o <b>valor negociado</b> de cada um, se for diferente do anunciado.</p>
+  </fieldset>
+
+  <fieldset>
+    <legend>Pagamento</legend>
+    <div class="row">
+      <div><label for="pago">Valor pago agora (R$)</label><input id="pago" type="number" min="0" step="0.01" value="0"></div>
+      <div><label for="pagoForma">Forma do pagamento</label>
+        <select id="pagoForma"><option>Pix</option><option>Cartão de crédito</option><option>Dinheiro</option><option>Pix + cartão de crédito</option><option>2 cartões de crédito</option></select></div>
+    </div>
+    <div class="row">
+      <div><label for="pagoData">Data do pagamento</label><input id="pagoData" type="date"></div>
+      <div><label for="saldoForma">Forma de pagamento do saldo</label>
+        <select id="saldoForma"><option>Pix</option><option>Cartão de crédito</option><option>Dinheiro</option><option>Pix ou cartão de crédito</option></select></div>
+    </div>
+    <div class="summary" id="summary"></div>
+  </fieldset>
+
+  <fieldset>
+    <legend>Entrega</legend>
+    <div class="row">
+      <div><label for="entrega">Entrega / retirada até</label><input id="entrega" type="date" value="2026-10-31"></div>
+      <div><label for="endereco">Local de retirada</label><input id="endereco" value="Dourados/MS (endereço combinado com o vendedor)"></div>
+    </div>
+    <label for="desist">Se o comprador desistir</label>
+    <select id="desist">
+      <option value="arras">O valor pago fica com o vendedor como sinal (arras)</option>
+      <option value="devolve">O valor pago é devolvido integralmente</option>
+      <option value="metade">Devolve 50% do valor pago</option>
+    </select>
+    <label for="obs">Observações (opcional)</label>
+    <textarea id="obs" rows="2" placeholder="Ex.: comprador retirará com caminhonete própria no dia 30/10."></textarea>
+  </fieldset>
+
+  <div class="btns">
+    <button class="btn" id="print">Salvar em PDF / Imprimir</button>
+    <button class="btn alt" id="clear">Limpar</button>
+  </div>
+  <p class="hint">No celular: toque em “Salvar em PDF / Imprimir” e escolha “Salvar como PDF” para mandar pelo WhatsApp. Nada do que você digita aqui fica salvo ou é enviado para lugar nenhum.</p>
+</div>
+
+<div class="doc" id="doc"></div>
+
+</div>
+
+<script>
+const $ = id => document.getElementById(id);
+const fmt = n => (n||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
+const fdate = s => { if(!s) return '____/____/______'; const [y,m,d]=s.split('-'); return `${d}/${m}/${y}`; };
+const esc = s => String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const line = (v,w) => v ? `<b>${esc(v)}</b>` : `<span class="blank" style="min-width:${w||180}px">&nbsp;</span>`;
+let ITEMS = [];
+
+const today = new Date(); const pad = n => String(n).padStart(2,'0');
+const localISO = `${today.getFullYear()}-${pad(today.getMonth()+1)}-${pad(today.getDate())}`;
+$('pagoData').value = localISO;
+const termoNum = 'Nº ' + localISO.replace(/-/g,'') + '-' + pad(today.getHours()) + pad(today.getMinutes());
+
+function selected(){
+  return [...document.querySelectorAll('.it')].filter(r=>r.querySelector('input[type=checkbox]').checked).map(r=>{
+    const it = ITEMS[+r.dataset.i];
+    return {...it, neg: parseFloat(r.querySelector('input[type=number]').value)||0};
+  });
+}
+
+function render(){
+  const sel = selected();
+  const anunciado = sel.reduce((s,i)=>s+i.min,0);
+  const anuncTxt = sel.length ? sel.map(i=> i.min===i.max ? fmt(i.min) : `${fmt(i.min)} a ${fmt(i.max)}`).join(' + ') : '—';
+  const neg = sel.reduce((s,i)=>s+i.neg,0);
+  const pago = parseFloat($('pago').value)||0;
+  const haver = Math.max(neg - pago, 0);
+  $('summary').innerHTML = `Valor negociado: <b>${fmt(neg)}</b><br>Valor pago: <b>${fmt(pago)}</b><br>Valor em haver: <b>${fmt(haver)}</b>` + (pago>neg && neg>0 ? '<br><span style="color:#b00">Atenção: valor pago maior que o negociado.</span>' : '');
+
+  const v = {nome:$('vNome').value.trim(), cpf:$('vCpf').value.trim()};
+  const c = {nome:$('cNome').value.trim(), cpf:$('cCpf').value.trim(), tel:$('cTel').value.trim()};
+  const entrega = fdate($('entrega').value);
+  const desist = {
+    arras:'Em caso de desistência do COMPRADOR, o valor pago ficará retido pelo VENDEDOR a título de sinal (arras), conforme o art. 418 do Código Civil, e o(s) item(ns) voltará(ão) a ser oferecido(s) à venda.',
+    devolve:'Em caso de desistência do COMPRADOR, o VENDEDOR devolverá integralmente o valor pago, em até 7 (sete) dias, e o(s) item(ns) voltará(ão) a ser oferecido(s) à venda.',
+    metade:'Em caso de desistência do COMPRADOR, o VENDEDOR devolverá 50% (cinquenta por cento) do valor pago, em até 7 (sete) dias, retendo o restante a título de sinal, e o(s) item(ns) voltará(ão) a ser oferecido(s) à venda.'
+  }[$('desist').value];
+
+  const itemsHtml = sel.length ? sel.map((i,k)=>`
+    <div class="item-box">
+      ${i.photo ? `<img src="${esc(i.photo)}" alt="${esc(i.name)}">` : `<div class="nophoto">Foto não disponível<br>no catálogo</div>`}
+      <div><div class="t">Item ${k+1}: ${esc(i.name)}</div>
+        <div>${esc(i.note)}</div>
+        <div style="margin-top:6px">Valor negociado deste item: <b>${fmt(i.neg)}</b></div>
+        <div style="font-size:12px;color:#555">Item usado, vendido no estado de conservação descrito e mostrado na foto.</div>
+      </div>
+    </div>`).join('') : '<p><i>Nenhum item selecionado.</i></p>';
+
+  const saldoTxt = haver > 0
+    ? `O saldo em haver de <b>${fmt(haver)}</b> será pago pelo COMPRADOR via <b>${esc($('saldoForma').value)}</b> até a data da entrega/retirada (<b>${entrega}</b>), antes da retirada do(s) item(ns).`
+    : `O valor negociado foi <b>quitado integralmente</b> na assinatura deste termo.`;
+
+  $('doc').innerHTML = `
+    <h1>Termo de Compromisso de Compra, Venda e Entrega de Bens Móveis Usados</h1>
+    <div class="num">${termoNum}</div>
+
+    <h3>1. Partes</h3>
+    <table class="parties">
+      <tr><td><b>VENDEDOR(A):</b></td><td>${line(v.nome,260)}, CPF ${line(v.cpf,140)}</td></tr>
+      <tr><td><b>COMPRADOR(A):</b></td><td>${line(c.nome,260)}, CPF ${line(c.cpf,140)}, telefone ${line(c.tel,140)}</td></tr>
+    </table>
+
+    <h3>2. Objeto</h3>
+    <p>O VENDEDOR vende ao COMPRADOR o(s) bem(ns) móvel(is) usado(s) descrito(s) abaixo. O COMPRADOR declara ter visto as fotos e a descrição, conhecer o estado de conservação e aceitá-lo como está.</p>
+    ${itemsHtml}
+
+    <h3>3. Valores</h3>
+    <table class="vals">
+      <tr><td>Valor anunciado</td><td>${anuncTxt}</td></tr>
+      <tr class="hl"><td>Valor negociado (total)</td><td>${fmt(neg)}</td></tr>
+      <tr><td>Valor pago em ${fdate($('pagoData').value)} via ${esc($('pagoForma').value)}</td><td>${fmt(pago)}</td></tr>
+      <tr class="hl"><td>Valor em haver (saldo a pagar)</td><td>${fmt(haver)}</td></tr>
+    </table>
+    <p>${saldoTxt} Eventuais taxas de cartão de crédito são de responsabilidade do COMPRADOR.</p>
+
+    <h3>4. Reserva e entrega</h3>
+    <p>A partir da assinatura deste termo e do pagamento acima, o(s) item(ns) fica(m) reservado(s) ao COMPRADOR e não será(ão) oferecido(s) a terceiros.</p>
+    <p>O VENDEDOR se compromete a disponibilizar o(s) item(ns) para retirada <b>até ${entrega}</b>, no seguinte local: ${line($('endereco').value,260)}. O VENDEDOR permanece com a posse e o uso do(s) item(ns) até essa data, comprometendo-se a conservá-lo(s) no estado atual, ressalvado o desgaste natural de uso.</p>
+    <p>Frete, retirada, desmontagem e montagem são de responsabilidade do COMPRADOR. A retirada fica condicionada à quitação do saldo em haver.</p>
+
+    <h3>5. Desistência e não entrega</h3>
+    <p>${desist}</p>
+    <p>Caso o COMPRADOR não retire o(s) item(ns) em até 5 (cinco) dias após a data combinada, sem novo acordo com o VENDEDOR, considera-se desistência e aplica-se a regra acima.</p>
+    <p>Caso o VENDEDOR não entregue o(s) item(ns) por qualquer motivo, devolverá integralmente o valor recebido ao COMPRADOR em até 7 (sete) dias.</p>
+
+    <h3>6. Disposições gerais</h3>
+    <p>Por se tratar de bens usados entre pessoas físicas, não há garantia de fábrica ou de funcionamento futuro além do estado constatado na entrega, que o COMPRADOR poderá conferir no ato da retirada.</p>
+    ${$('obs').value.trim() ? `<p><b>Observações:</b> ${esc($('obs').value.trim())}</p>` : ''}
+    <p>E, por estarem de acordo, as partes assinam este termo em 2 (duas) vias de igual teor.</p>
+
+    <p style="margin-top:22px">Dourados/MS, ${fdate($('pagoData').value)}.</p>
+
+    <div class="sign">
+      <div>${esc(v.nome)||'&nbsp;'}<br>VENDEDOR(A)</div>
+      <div>${esc(c.nome)||'&nbsp;'}<br>COMPRADOR(A)</div>
+    </div>`;
+}
+
+fetch('items.json?t='+Date.now(),{cache:'no-store'}).then(r=>r.json()).then(items=>{
+  ITEMS = items;
+  $('items').innerHTML = items.map((it,i)=>`
+    <div class="it" data-i="${i}">
+      <input type="checkbox" aria-label="Selecionar ${esc(it.name)}">
+      <div>${esc(it.name)}<small>Anunciado: ${it.min===it.max?fmt(it.min):fmt(it.min)+' a '+fmt(it.max)}${it.status==='reservado'&&it.reservedFor?' · reservado p/ '+esc(it.reservedFor):''}${it.status==='vendido'?' · vendido':''}</small></div>
+      <input type="number" min="0" step="0.01" value="${it.min}" aria-label="Valor negociado">
+    </div>`).join('');
+  render();
+}).catch(()=>{$('items').textContent='Não foi possível carregar os itens. Recarregue a página.';});
+
+document.addEventListener('input', render);
+document.addEventListener('change', render);
+$('print').onclick = () => window.print();
+$('clear').onclick = () => { ['cNome','cCpf','cTel','obs'].forEach(id=>$(id).value=''); $('pago').value=0; document.querySelectorAll('.it input[type=checkbox]').forEach(c=>c.checked=false); render(); };
+</script>
+</body>
+</html>
