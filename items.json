@@ -133,8 +133,17 @@
     "status": "disponivel"
   },
   {
-    "name": "Cadeira de escritório giratória",
-    "note": "2 unidades, compradas novas a R$250 cada. R$ 100 cada unidade.",
+    "name": "Cadeira de escritório giratória (unidade 1)",
+    "note": "Comprada nova a R$250.",
+    "photo": "images/cadeira.jpg",
+    "min": 100,
+    "max": 100,
+    "status": "reservado",
+    "reservedFor": "Thalita"
+  },
+  {
+    "name": "Cadeira de escritório giratória (unidade 2)",
+    "note": "Comprada nova a R$250.",
     "photo": "images/cadeira.jpg",
     "min": 100,
     "max": 100,
