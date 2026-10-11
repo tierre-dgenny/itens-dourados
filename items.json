@@ -10,7 +10,7 @@
   {
     "name": "Guarda-roupa (unidade 2)",
     "note": "Pequenas avarias (gavetas desencaixadas, serão consertadas) que não comprometem o funcionamento.",
-    "photo": null,
+    "photo": "images/guarda-roupa-2.jpg",
     "min": 280,
     "max": 500,
     "status": "disponivel"
