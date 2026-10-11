@@ -29,7 +29,8 @@
     "photo": "images/mesa-escritorio.jpg",
     "min": 80,
     "max": 140,
-    "status": "disponivel"
+    "status": "reservado",
+    "reservedFor": "Thalita"
   },
   {
     "name": "Mesa de jantar com 4 cadeiras",
