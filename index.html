@@ -87,6 +87,10 @@
   .stamp{position:absolute;inset:0;pointer-events:none;display:flex;align-items:center;justify-content:center;z-index:2;}
   .stamp span{display:block;width:160%;text-align:center;transform:rotate(-18deg);background:rgba(200,20,20,.88);color:#fff;font-weight:800;font-size:20px;letter-spacing:.18em;padding:10px 0;border-top:3px solid #fff;border-bottom:3px solid #fff;box-shadow:0 4px 12px rgba(0,0,0,.35);font-family:"Courier New",Courier,monospace;text-transform:uppercase;}
   .card:has(.stamp) .photo-wrap img{filter:grayscale(.6) brightness(.85);}
+  .gallery{display:flex;width:100%;height:100%;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;}
+  .gallery::-webkit-scrollbar{display:none}
+  .gallery img{flex:0 0 100%;width:100%;height:100%;object-fit:cover;scroll-snap-align:start;}
+  .gal-count{position:absolute;left:10px;bottom:10px;background:rgba(0,0,0,.6);color:#fff;font-size:12px;padding:4px 10px;border-radius:999px;z-index:1;pointer-events:none;}
   .photo-wrap{
     position:relative;
     aspect-ratio:4/3;
@@ -282,8 +286,11 @@ items.forEach(item => {
   const card = document.createElement('div');
   card.className = 'card';
 
-  const photoHtml = item.photo
-    ? `<img src="${item.photo}" alt="${item.name}" loading="lazy">`
+  const pics = item.photos && item.photos.length ? item.photos : (item.photo ? [item.photo] : []);
+  const photoHtml = pics.length > 1
+    ? `<div class="gallery">${pics.map(src=>`<img src="${src}" alt="${item.name}" loading="lazy">`).join('')}</div><div class="gal-count">📷 ${pics.length} fotos · deslize</div>`
+    : pics.length
+    ? `<img src="${pics[0]}" alt="${item.name}" loading="lazy">`
     : `<div class="no-photo">Foto em atualização</div>`;
 
   const statusLabel = {

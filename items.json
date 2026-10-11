@@ -83,12 +83,16 @@
     "status": "disponivel"
   },
   {
-    "name": "Cama box casal c/ baú",
-    "note": "Colchão Probel Imperial Soft. Comprada nova em 09/2024 por R$5.000.",
-    "photo": null,
+    "name": "Cama box casal com baú",
+    "note": "Tamanho casal, com baú. Não é conjugada: o baú vem separado da cama, o que facilita o transporte. Colchão Probel Imperial Soft. Comprada nova em 09/2024 por R$5.000.",
+    "photo": "images/cama-casal-1.jpg",
     "min": 2200,
     "max": 3200,
-    "status": "disponivel"
+    "status": "disponivel",
+    "photos": [
+      "images/cama-casal-1.jpg",
+      "images/cama-casal-2.jpg"
+    ]
   },
   {
     "name": "Máquina de lavar Consul Facilite 10kg",

@@ -38,7 +38,7 @@
   .doc p{margin:6px 0;text-align:justify}
   .parties td{padding:3px 6px;vertical-align:top}
   .item-box{display:flex;gap:14px;border:1px solid #999;padding:10px;margin:10px 0;break-inside:avoid;page-break-inside:avoid}
-  .item-box img{width:170px;height:128px;object-fit:cover;border:1px solid #ccc;flex-shrink:0}
+  .item-box img{width:150px;margin-right:6px;height:128px;object-fit:cover;border:1px solid #ccc;flex-shrink:0}
   .item-box .nophoto{width:170px;height:128px;border:1px dashed #999;display:flex;align-items:center;justify-content:center;font-size:12px;color:#777;flex-shrink:0;text-align:center}
   .item-box .t{font-weight:700}
   table.vals{width:100%;border-collapse:collapse;margin:8px 0;break-inside:avoid}
@@ -169,7 +169,7 @@ function render(){
 
   const itemsHtml = sel.length ? sel.map((i,k)=>`
     <div class="item-box">
-      ${i.photo ? `<img src="${esc(i.photo)}" alt="${esc(i.name)}">` : `<div class="nophoto">Foto não disponível<br>no catálogo</div>`}
+      ${(i.photos&&i.photos.length?i.photos:(i.photo?[i.photo]:[])).length ? (i.photos&&i.photos.length?i.photos:[i.photo]).map(s=>`<img src="${esc(s)}" alt="${esc(i.name)}">`).join('') : `<div class="nophoto">Foto não disponível<br>no catálogo</div>`}
       <div><div class="t">Item ${k+1}: ${esc(i.name)}</div>
         <div>${esc(i.note)}</div>
         <div style="margin-top:6px">Valor negociado deste item: <b>${fmt(i.neg)}</b></div>
