@@ -89,8 +89,9 @@
   .card:has(.stamp) .photo-wrap img{filter:grayscale(.6) brightness(.85);}
   .gallery{display:flex;width:100%;height:100%;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;}
   .gallery::-webkit-scrollbar{display:none}
+  .gallery video{flex:0 0 100%;width:100%;height:100%;object-fit:contain;background:#000;scroll-snap-align:start;}
   .gallery img{flex:0 0 100%;width:100%;height:100%;object-fit:cover;scroll-snap-align:start;}
-  .gal-count{position:absolute;left:10px;bottom:10px;background:rgba(0,0,0,.6);color:#fff;font-size:12px;padding:4px 10px;border-radius:999px;z-index:1;pointer-events:none;}
+  .gal-count{position:absolute;left:10px;top:10px;background:rgba(0,0,0,.6);color:#fff;font-size:12px;padding:4px 10px;border-radius:999px;z-index:1;pointer-events:none;}
   .photo-wrap{
     position:relative;
     aspect-ratio:4/3;
@@ -287,8 +288,12 @@ items.forEach(item => {
   card.className = 'card';
 
   const pics = item.photos && item.photos.length ? item.photos : (item.photo ? [item.photo] : []);
-  const photoHtml = pics.length > 1
-    ? `<div class="gallery">${pics.map(src=>`<img src="${src}" alt="${item.name}" loading="lazy">`).join('')}</div><div class="gal-count">📷 ${pics.length} fotos · deslize</div>`
+  const vid = item.video ? `<video src="${item.video}" ${item.videoPoster ? `poster="${item.videoPoster}"` : ''} controls playsinline preload="none"></video>` : '';
+  const countTxt = [pics.length ? `📷 ${pics.length} foto${pics.length>1?'s':''}` : '', item.video ? '🎥 vídeo' : ''].filter(Boolean).join(' + ');
+  const photoHtml = (pics.length + (item.video?1:0)) > 1
+    ? `<div class="gallery">${pics.map(src=>`<img src="${src}" alt="${item.name}" loading="lazy">`).join('')}${vid}</div><div class="gal-count">${countTxt} · deslize</div>`
+    : item.video && !pics.length
+    ? vid
     : pics.length
     ? `<img src="${pics[0]}" alt="${item.name}" loading="lazy">`
     : `<div class="no-photo">Foto em atualização</div>`;

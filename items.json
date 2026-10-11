@@ -53,7 +53,9 @@
     "photo": "images/mesa-jantar.jpg",
     "min": 600,
     "max": 600,
-    "status": "disponivel"
+    "status": "disponivel",
+    "video": "videos/mesa-jantar.mp4",
+    "videoPoster": "images/mesa-jantar-video.jpg"
   },
   {
     "name": "Sapateira de madeira",
