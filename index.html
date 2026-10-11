@@ -84,6 +84,9 @@
     position:relative;
     box-shadow:0 1px 0 rgba(43,38,32,.04);
   }
+  .stamp{position:absolute;inset:0;pointer-events:none;display:flex;align-items:center;justify-content:center;z-index:2;}
+  .stamp span{display:block;width:160%;text-align:center;transform:rotate(-18deg);background:rgba(200,20,20,.88);color:#fff;font-weight:800;font-size:20px;letter-spacing:.18em;padding:10px 0;border-top:3px solid #fff;border-bottom:3px solid #fff;box-shadow:0 4px 12px rgba(0,0,0,.35);font-family:"Courier New",Courier,monospace;text-transform:uppercase;}
+  .card:has(.stamp) .photo-wrap img{filter:grayscale(.6) brightness(.85);}
   .photo-wrap{
     position:relative;
     aspect-ratio:4/3;
@@ -299,6 +302,7 @@ items.forEach(item => {
     <div class="photo-wrap">
       ${photoHtml}
       <div class="tag">${tagText}</div>
+      ${item.status === "reservado" ? `<div class="stamp"><span>RESERVADO${item.reservedFor ? " · " + item.reservedFor.toUpperCase() : ""}</span></div>` : ""}
     </div>
     <div class="body">
       <p class="name">${item.name}</p>
