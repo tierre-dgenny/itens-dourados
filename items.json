@@ -34,7 +34,7 @@
   {
     "name": "Mesa de jantar com 4 cadeiras",
     "note": "Madeira, vendida sem os itens que aparecem em cima na foto.",
-    "photo": null,
+    "photo": "images/mesa-jantar.jpg",
     "min": 600,
     "max": 600,
     "status": "disponivel"
