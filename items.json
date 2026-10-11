@@ -124,10 +124,10 @@
   },
   {
     "name": "Cooktop 5 bocas Fischer",
-    "note": "Comprado novo em 07/2025.",
-    "photo": null,
-    "min": 550,
-    "max": 750,
+    "note": "Comprado novo há 1 ano (07/2025).",
+    "photo": "images/cooktop.jpg",
+    "min": 300,
+    "max": 300,
     "status": "disponivel"
   },
   {
