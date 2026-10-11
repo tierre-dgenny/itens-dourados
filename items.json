@@ -74,9 +74,9 @@
     "reservedFor": "Fernando"
   },
   {
-    "name": "Cama box solteiro",
-    "note": "Comprada em 2025 por R$1.200.",
-    "photo": null,
+    "name": "Cama box solteiro com cama auxiliar",
+    "note": "Com cama auxiliar. Comprada em 2025 por R$1.200.",
+    "photo": "images/cama-solteiro.jpg",
     "min": 700,
     "max": 950,
     "status": "disponivel"
