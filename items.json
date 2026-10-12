@@ -180,8 +180,8 @@
   },
   {
     "name": "Micro-ondas Philco 110V",
-    "note": "Voltagem 110V.",
-    "photo": null,
+    "note": "Voltagem 110V. Placa de mica trocada recentemente. Tem manchas na parte interna (causadas por produto de limpeza pesada), que não prejudicam o funcionamento.",
+    "photo": "images/microondas.jpg",
     "min": 200,
     "max": 200,
     "status": "disponivel"
