@@ -72,7 +72,10 @@
     "min": 600,
     "max": 950,
     "status": "reservado",
-    "reservedFor": "Thalita e Letícia"
+    "queue": [
+      "Fernando",
+      "Thalita e Letícia"
+    ]
   },
   {
     "name": "Rack de TV",
