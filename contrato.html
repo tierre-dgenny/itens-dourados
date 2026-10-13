@@ -260,7 +260,25 @@ $('pdf').onclick = async () => {
   try {
     await Promise.all([...el.querySelectorAll('img')].map(img => img.complete ? 0 : new Promise(r => { img.onload = img.onerror = r; })));
     const opt = { margin:[10,8,12,8], filename, image:{type:'jpeg',quality:0.92}, html2canvas:{scale:2,useCORS:true,scrollX:0,scrollY:0,windowWidth:740,x:0,y:0}, jsPDF:{unit:'mm',format:'a4',orientation:'portrait'}, pagebreak:{mode:['css','legacy'],avoid:['.item-box','.sign']} };
-    const blob = await html2pdf().set(opt).from(el).outputPdf('blob');
+    const worker = html2pdf().set(opt).from(el).toPdf();
+    const pdf = await worker.get('pdf');
+    const canvas = await worker.get('canvas');
+    // remove páginas em branco (ex.: última página vazia)
+    try {
+      const ph = Math.floor(canvas.width * (275/194));
+      const n = Math.ceil(canvas.height / ph);
+      const ctx = canvas.getContext('2d');
+      for (let i = n - 1; i >= 0; i--) {
+        if (pdf.getNumberOfPages() <= 1) break;
+        const y = i * ph, hgt = Math.min(ph, canvas.height - y);
+        const d = ctx.getImageData(0, y, canvas.width, hgt).data;
+        let blank = true;
+        for (let k = 0; k < d.length; k += 16) { if (d[k] < 235 || d[k+1] < 235 || d[k+2] < 235) { blank = false; break; } }
+        if (blank && i + 1 <= pdf.getNumberOfPages()) pdf.deletePage(i + 1);
+      }
+      while (pdf.getNumberOfPages() > n) pdf.deletePage(pdf.getNumberOfPages());
+    } catch (_) {}
+    const blob = pdf.output('blob');
     const file = new File([blob], filename, {type:'application/pdf'});
     if (navigator.canShare && navigator.canShare({files:[file]})) {
       try { await navigator.share({files:[file], title:'Termo de compra e venda'}); st.textContent = 'PDF gerado.'; }
