@@ -119,16 +119,19 @@
   </fieldset>
 
   <div class="btns">
-    <button class="btn" id="print">Salvar em PDF / Imprimir</button>
+    <button class="btn" id="pdf">Baixar PDF</button>
+    <button class="btn alt" id="print">Imprimir</button>
     <button class="btn alt" id="clear">Limpar</button>
   </div>
-  <p class="hint">No celular: toque em “Salvar em PDF / Imprimir” e escolha “Salvar como PDF” para mandar pelo WhatsApp. Nada do que você digita aqui fica salvo ou é enviado para lugar nenhum.</p>
+  <p class="hint" id="pdfStatus"></p>
+  <p class="hint">Toque em <b>Baixar PDF</b>: no celular abre a opção de compartilhar (WhatsApp, salvar em arquivos etc.). Se o link foi aberto dentro do WhatsApp ou Instagram e não funcionar, toque nos três pontinhos e escolha “Abrir no navegador”. Nada do que você digita aqui fica salvo ou é enviado para lugar nenhum.</p>
 </div>
 
 <div class="doc" id="doc"></div>
 
 </div>
 
+<script src="vendor/html2pdf.bundle.min.js"></script>
 <script>
 const $ = id => document.getElementById(id);
 const fmt = n => (n||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
@@ -241,6 +244,40 @@ fetch('items.json?t='+Date.now(),{cache:'no-store'}).then(r=>r.json()).then(item
 document.addEventListener('input', render);
 document.addEventListener('change', render);
 $('print').onclick = () => window.print();
+$('pdf').onclick = async () => {
+  const btn = $('pdf'), st = $('pdfStatus');
+  if (!window.html2pdf) { st.textContent = 'Não foi possível carregar o gerador de PDF. Verifique a internet e recarregue a página.'; return; }
+  btn.disabled = true; btn.textContent = 'Gerando PDF…'; st.textContent = '';
+  const nome = ($('cNome').value.trim() || 'comprador').normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^a-zA-Z0-9]+/g,'-').toLowerCase();
+  const filename = `termo-${nome}.pdf`;
+  const src = $('doc');
+  const el = src.cloneNode(true); el.removeAttribute('id');
+  el.style.cssText = 'width:700px;box-sizing:border-box;padding:24px 28px;border:0;margin:0;background:#fff;';
+  const holder = document.createElement('div');
+  holder.style.cssText = 'position:fixed;left:0;top:0;width:700px;z-index:-1;opacity:1;pointer-events:none;';
+  holder.appendChild(el); document.body.appendChild(holder);
+  window.scrollTo(0,0);
+  try {
+    await Promise.all([...el.querySelectorAll('img')].map(img => img.complete ? 0 : new Promise(r => { img.onload = img.onerror = r; })));
+    const opt = { margin:[10,8,12,8], filename, image:{type:'jpeg',quality:0.92}, html2canvas:{scale:2,useCORS:true,scrollX:0,scrollY:0,windowWidth:740,x:0,y:0}, jsPDF:{unit:'mm',format:'a4',orientation:'portrait'}, pagebreak:{mode:['css','legacy'],avoid:['.item-box','.sign']} };
+    const blob = await html2pdf().set(opt).from(el).outputPdf('blob');
+    const file = new File([blob], filename, {type:'application/pdf'});
+    if (navigator.canShare && navigator.canShare({files:[file]})) {
+      try { await navigator.share({files:[file], title:'Termo de compra e venda'}); st.textContent = 'PDF gerado.'; }
+      catch(e){ if (e.name !== 'AbortError') download(blob, filename); }
+    } else { download(blob, filename); }
+  } catch (e) {
+    st.textContent = 'Erro ao gerar o PDF: ' + e.message;
+  } finally {
+    holder.remove(); btn.disabled = false; btn.textContent = 'Baixar PDF';
+  }
+};
+function download(blob, filename){
+  const url = URL.createObjectURL(blob); const a = document.createElement('a');
+  a.href = url; a.download = filename; document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url), 4000);
+  $('pdfStatus').textContent = 'PDF baixado (' + filename + '). Veja na pasta de downloads.';
+}
 $('clear').onclick = () => { ['cNome','cCpf','cTel','obs'].forEach(id=>$(id).value=''); $('pago').value=0; document.querySelectorAll('.it input[type=checkbox]').forEach(c=>c.checked=false); render(); };
 </script>
 </body>
