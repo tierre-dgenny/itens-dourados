@@ -114,8 +114,7 @@
     "photo": "images/maquina-lavar.jpg",
     "min": 400,
     "max": 650,
-    "status": "reservado",
-    "reservedFor": "Ana Beatriz"
+    "status": "vendido"
   },
   {
     "name": "Geladeira Consul (frost free)",
