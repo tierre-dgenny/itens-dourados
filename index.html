@@ -92,6 +92,12 @@
   .gallery::-webkit-scrollbar{display:none}
   .gallery video{flex:0 0 100%;width:100%;height:100%;object-fit:contain;background:#000;scroll-snap-align:start;}
   .gallery img{flex:0 0 100%;width:100%;height:100%;object-fit:cover;scroll-snap-align:start;}
+  .gal-nav{position:absolute;top:50%;transform:translateY(-50%);z-index:3;width:38px;height:38px;border:0;border-radius:50%;background:rgba(0,0,0,.55);color:#fff;font-size:26px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0 0 3px;transition:opacity .15s,background .15s;}
+  .gal-nav:hover{background:rgba(0,0,0,.8);}
+  .gal-nav.prev{left:8px;}
+  .gal-nav.next{right:8px;}
+  .gal-nav[disabled]{opacity:0;pointer-events:none;}
+  @media (hover:none){.gal-nav{display:none;}}
   .gal-count{position:absolute;left:10px;top:10px;background:rgba(0,0,0,.6);color:#fff;font-size:12px;padding:4px 10px;border-radius:999px;z-index:1;pointer-events:none;}
   .photo-wrap{
     position:relative;
@@ -295,7 +301,7 @@ items.forEach(item => {
   const vid = item.video ? `<video src="${item.video}" ${item.videoPoster ? `poster="${item.videoPoster}"` : ''} controls playsinline preload="none"></video>` : '';
   const countTxt = [pics.length ? `📷 ${pics.length} foto${pics.length>1?'s':''}` : '', item.video ? '🎥 vídeo' : ''].filter(Boolean).join(' + ');
   const photoHtml = (pics.length + (item.video?1:0)) > 1
-    ? `<div class="gallery">${pics.map(src=>`<img src="${src}" alt="${item.name}" loading="lazy">`).join('')}${vid}</div><div class="gal-count">${countTxt} · deslize</div>`
+    ? `<div class="gallery">${pics.map(src=>`<img src="${src}" alt="${item.name}" loading="lazy">`).join('')}${vid}</div><button type="button" class="gal-nav prev" aria-label="Anterior" disabled>&#8249;</button><button type="button" class="gal-nav next" aria-label="Próxima">&#8250;</button><div class="gal-count">${countTxt} · deslize</div>`
     : item.video && !pics.length
     ? vid
     : pics.length
@@ -333,6 +339,21 @@ items.forEach(item => {
     </div>
   `;
   grid.appendChild(card);
+
+  const gal = card.querySelector('.gallery');
+  if(gal){
+    const prev = card.querySelector('.gal-nav.prev');
+    const next = card.querySelector('.gal-nav.next');
+    const sync = () => {
+      prev.disabled = gal.scrollLeft < 4;
+      next.disabled = gal.scrollLeft + gal.clientWidth >= gal.scrollWidth - 4;
+    };
+    prev.addEventListener('click', () => gal.scrollBy({left: -gal.clientWidth, behavior: 'smooth'}));
+    next.addEventListener('click', () => gal.scrollBy({left: gal.clientWidth, behavior: 'smooth'}));
+    gal.addEventListener('scroll', sync, {passive: true});
+    window.addEventListener('resize', sync);
+    sync();
+  }
 
   if(item.status === 'disponivel'){
     totalMin += item.min;
