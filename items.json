@@ -29,8 +29,7 @@
     "photo": "images/mesa-escritorio.jpg",
     "min": 80,
     "max": 140,
-    "status": "reservado",
-    "reservedFor": "Thalita"
+    "status": "vendido"
   },
   {
     "name": "Escrivaninha branca",
