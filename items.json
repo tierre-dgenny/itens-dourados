@@ -45,7 +45,7 @@
     ],
     "min": 150,
     "max": 150,
-    "status": "disponivel"
+    "status": "vendido"
   },
   {
     "name": "Mesa de jantar com 4 cadeiras",
@@ -71,11 +71,7 @@
     "photo": "images/sofa.jpg",
     "min": 600,
     "max": 950,
-    "status": "reservado",
-    "queue": [
-      "Fernando",
-      "Thalita e Letícia"
-    ]
+    "status": "vendido"
   },
   {
     "name": "Rack de TV",
@@ -171,7 +167,7 @@
     "photo": "images/cadeira.jpg",
     "min": 100,
     "max": 100,
-    "status": "disponivel"
+    "status": "vendido"
   },
   {
     "name": "Moto Honda Biz+ 2009/2009",
