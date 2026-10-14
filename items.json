@@ -155,8 +155,7 @@
     "photo": "images/cadeira.jpg",
     "min": 100,
     "max": 100,
-    "status": "reservado",
-    "reservedFor": "Thalita"
+    "status": "vendido"
   },
   {
     "name": "Cadeira de escritório giratória (unidade 2)",
