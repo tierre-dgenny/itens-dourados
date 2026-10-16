@@ -188,5 +188,13 @@
     "min": 200,
     "max": 200,
     "status": "disponivel"
+  },
+  {
+    "name": "Poltrona amarela",
+    "note": "Pés removíveis.",
+    "photo": null,
+    "min": 80,
+    "max": 80,
+    "status": "disponivel"
   }
 ]
