@@ -52,7 +52,7 @@
     "photo": "images/mesa-jantar.jpg",
     "min": 600,
     "max": 600,
-    "status": "disponivel",
+    "status": "vendido",
     "video": "videos/mesa-jantar.mp4",
     "videoPoster": "images/mesa-jantar-video.jpg"
   },
@@ -78,7 +78,7 @@
     "photo": "images/tv-rack.jpg",
     "min": 100,
     "max": 100,
-    "status": "disponivel"
+    "status": "vendido"
   },
   {
     "name": "TV Smart Ecopower ~32\" (Android)",
