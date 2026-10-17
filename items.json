@@ -192,7 +192,7 @@
   {
     "name": "Poltrona amarela",
     "note": "Pés removíveis.",
-    "photo": null,
+    "photo": "images/poltrona.jpg",
     "min": 80,
     "max": 80,
     "status": "disponivel"
