@@ -1,0 +1,273 @@
+<title>Despedida da Ti</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+<style>
+/* Layout: uma coluna estreita como o convite — capa roxa, cartão creme com o formulário, ondas no rodapé */
+:root{
+  --roxo:#2e205e; --roxo-2:#3b2a74; --laranja:#f0a658; --lilas:#b79de0; --lilas-claro:#e4d7ff;
+  --creme:#fdf1e2; --tinta:#2e205e; --tinta-2:#62548c; --linha:#e8d9c4; --ok:#2f8f5b; --erro:#c0392b;
+  --f:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--roxo);color:var(--creme);font-family:var(--f);font-size:16px;line-height:1.45;margin:0;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0;overflow-x:hidden}
+.wrap{max-width:560px;margin:0 auto;padding-block:40px 0;display:flex;flex-direction:column;gap:28px;position:relative}
+.artes{margin:0;display:flex;flex-direction:column;gap:16px}
+.artes img{display:block;width:100%;height:auto;max-width:100%;border-radius:20px}
+.sol{position:absolute;top:-90px;right:-140px;width:220px;height:220px;border-radius:50%;background:var(--laranja);pointer-events:none}
+h1{font-size:clamp(44px,12vw,72px);line-height:.95;font-weight:800;letter-spacing:-.03em;margin:0;text-wrap:balance;position:relative}
+.intro{color:var(--lilas-claro);font-size:18px;margin:0;max-width:34ch}
+.info{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.rot{font-size:13px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--laranja);margin:0 0 4px}
+.info p{margin:0}
+.info strong{display:block;font-size:20px;font-weight:700;color:var(--creme)}
+.info span{color:var(--lilas-claro);font-size:15px}
+.cartao{background:var(--creme);color:var(--tinta);border-radius:28px;padding:28px 24px;display:flex;flex-direction:column;gap:20px}
+.cartao h2{margin:0;font-size:26px;font-weight:800;letter-spacing:-.01em}
+.cartao .sub{margin:-12px 0 0;color:var(--tinta-2)}
+label,.lbl{font-weight:600;font-size:15px;display:block;margin-bottom:8px}
+input[type=text],textarea{width:100%;font:inherit;font-size:17px;color:var(--tinta);background:#fff;border:2px solid var(--linha);border-radius:14px;padding:12px 14px}
+textarea{min-height:120px;resize:vertical;font-size:15px}
+input:focus-visible,textarea:focus-visible,button:focus-visible,a:focus-visible{outline:3px solid var(--lilas);outline-offset:2px}
+.passo{display:flex;align-items:center;gap:14px}
+.passo button{width:48px;height:48px;border-radius:50%;border:2px solid var(--tinta);background:transparent;color:var(--tinta);font-size:24px;font-weight:700;cursor:pointer;line-height:1}
+.passo output{font-size:28px;font-weight:800;min-width:2ch;text-align:center;font-variant-numeric:tabular-nums}
+.passo small{color:var(--tinta-2)}
+.opcoes{display:grid;gap:10px}
+.op{display:flex;gap:12px;align-items:center;border:2px solid var(--linha);border-radius:14px;padding:12px 14px;cursor:pointer;font-weight:500;background:#fff}
+.op input{accent-color:var(--roxo);width:20px;height:20px;margin:0;flex:none}
+.op:has(input:checked){border-color:var(--roxo);background:#f4ecff}
+.btn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;border:0;border-radius:999px;padding:16px 20px;font:inherit;font-size:18px;font-weight:700;cursor:pointer;text-decoration:none}
+.btn-pri{background:var(--laranja);color:var(--tinta)}
+.btn-pri:hover{filter:brightness(1.05)}
+.btn-sec{background:transparent;color:var(--tinta);border:2px solid var(--tinta)}
+.btn[aria-disabled=true]{opacity:.45;pointer-events:none}
+.msg{background:#fff;border:2px dashed var(--linha);border-radius:14px;padding:14px;white-space:pre-wrap;font-size:15px;color:var(--tinta)}
+.dica{font-size:14px;color:var(--tinta-2);margin:0}
+.erro{color:var(--erro);font-size:14px;margin:6px 0 0}
+.nao{background:none;border:0;color:var(--tinta-2);font:inherit;font-size:15px;text-decoration:underline;cursor:pointer;padding:4px;align-self:center}
+.feito{display:flex;flex-direction:column;gap:14px}
+.feito h2{font-size:24px}
+/* área da Ti */
+.painel{background:var(--roxo-2);border-radius:28px;padding:24px;display:flex;flex-direction:column;gap:18px;border:2px solid rgba(183,157,224,.35)}
+.painel h2{margin:0;font-size:24px;font-weight:800}
+.painel .sub{margin:-10px 0 0;color:var(--lilas-claro);font-size:15px}
+.totais{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.tot{background:var(--roxo);border-radius:16px;padding:12px;text-align:center}
+.tot b{display:block;font-size:30px;font-weight:800;font-variant-numeric:tabular-nums;color:var(--laranja)}
+.tot span{font-size:13px;color:var(--lilas-claro)}
+.painel label{color:var(--creme)}
+.painel textarea{border-color:transparent}
+.lista{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+.lista li{display:flex;align-items:center;gap:12px;background:var(--creme);color:var(--tinta);border-radius:14px;padding:12px 14px}
+.lista .nm{flex:1;min-width:0;font-weight:700;overflow-wrap:anywhere}
+.lista .nm small{display:block;font-weight:500;color:var(--tinta-2);font-size:13px}
+.pill{background:var(--lilas);color:var(--tinta);border-radius:999px;padding:3px 10px;font-weight:700;font-size:14px;white-space:nowrap;font-variant-numeric:tabular-nums}
+.pill.nao-vai{background:#e9d6d2}
+.resp{background:var(--roxo);color:var(--creme);border:0;border-radius:999px;padding:8px 14px;font:inherit;font-size:14px;font-weight:700;cursor:pointer;white-space:nowrap}
+.resp.ok{background:var(--ok)}
+.lista li{flex-wrap:wrap}
+.resp-box{background:var(--creme);color:var(--tinta);border-radius:14px;padding:14px;white-space:pre-wrap;font-size:15px}
+.del{background:none;border:0;color:var(--tinta-2);font-size:22px;cursor:pointer;width:36px;height:36px;border-radius:50%;flex:none}
+.del:hover{background:#efe1cf}
+.vazio{color:var(--lilas-claro);font-size:15px;margin:0;background:var(--roxo);border-radius:14px;padding:14px}
+.linha2{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:end}
+.linha2 .passo button{border-color:var(--creme);color:var(--creme)}
+.ondas{display:block;width:calc(100% + 2*max(16px,env(safe-area-inset-left,0px)));margin:20px calc(-1*max(16px,env(safe-area-inset-left,0px))) 0;height:120px}
+@media (max-width:420px){.info{grid-template-columns:1fr}.cartao{padding:24px 18px}}
+@media (prefers-reduced-motion:no-preference){.btn{transition:filter .15s}}
+</style>
+
+<div class="wrap">
+  <figure class="artes">
+    <img src="convite-1.jpg" width="1080" height="1350" alt="Convite da despedida da Ti: Vou morar na praia! 15 de novembro, domingo e feriado, a partir das 8h, no Espaço de Lazer Trindade, R. Maria Mécia Machado, 500, Jardim Ibirapuera, Dourados.">
+    <img src="convite-2.jpg" width="1080" height="1350" alt="Recados: piscina e karaokê, leve roupa de banho; espetinho na brasa, leve o seu pronto ou contribua com R$ 30; leve sua bebida e, se puder, um cooler; o espaço é coberto; se for levar alguém, avise antes.">
+  </figure>
+
+  <!-- CONVIDADO -->
+  <section class="cartao" id="rsvp" aria-labelledby="t-rsvp">
+    <div id="form-area">
+      <div style="display:flex;flex-direction:column;gap:20px">
+        <h2 id="t-rsvp">Confirma presença?</h2>
+        <p class="sub">Leva 30 segundos e me ajuda a organizar cadeiras e estrutura.</p>
+        <div>
+          <label for="nome">Seu nome</label>
+          <input type="text" id="nome" autocomplete="name" placeholder="Como a Ti te chama">
+          <p class="erro" id="erro-nome" hidden>Escreve seu nome pra eu saber quem é.</p>
+        </div>
+        <div>
+          <span class="lbl" id="l-pessoas">Quantas pessoas vão, contando você?</span>
+          <div class="passo" role="group" aria-labelledby="l-pessoas">
+            <button type="button" id="menos" aria-label="Menos uma pessoa">−</button>
+            <output id="pessoas" aria-live="polite">1</output>
+            <button type="button" id="mais" aria-label="Mais uma pessoa">+</button>
+            <small id="pessoas-txt">só você</small>
+          </div>
+        </div>
+        <div>
+          <label for="obs">Recado pra Ti <span style="font-weight:400;color:var(--tinta-2)">(opcional)</span></label>
+          <input type="text" id="obs" placeholder="Ex.: levo meu cooler">
+        </div>
+        <button class="btn btn-pri" type="button" id="confirmar">Confirmar presença</button>
+        <button class="nao" type="button" id="naovou">Não vou conseguir ir</button>
+      </div>
+    </div>
+
+    <div class="feito" id="feito" hidden>
+      <h2 id="feito-tit">Falta só enviar!</h2>
+      <p class="dica" id="feito-txt">Toque no botão pra abrir o WhatsApp com a mensagem pronta e mande pra Ti.</p>
+      <div class="msg" id="msg"></div>
+      <a class="btn btn-pri" id="zap" href="#" target="_blank" rel="noopener">Enviar no WhatsApp</a>
+      <button class="btn btn-sec" type="button" id="copiar">Copiar mensagem</button>
+      <p class="dica">Se o WhatsApp não abrir, copie a mensagem e mande pra Ti no <strong>(67) 99219-0016</strong>.</p>
+      <p class="dica" id="copiado" hidden>Mensagem copiada. É só colar na conversa com a Ti.</p>
+      <button class="nao" type="button" id="voltar">Corrigir minha resposta</button>
+    </div>
+  </section>
+
+  <!-- ÁREA DA TI (só aparece pra dona da página) -->
+  <section class="painel" id="painel" hidden aria-labelledby="t-painel">
+    <h2 id="t-painel">Lista de confirmados</h2>
+    <p class="sub">Só você vê esta parte. Cole aqui as mensagens que chegarem no WhatsApp e use "Copiar resposta" pra confirmar de volta.</p>
+    <div class="totais">
+      <div class="tot"><b id="n-conf">0</b><span>confirmações</span></div>
+      <div class="tot"><b id="n-pes">0</b><span>pessoas</span></div>
+    </div>
+    <div>
+      <label for="colar">Mensagem recebida</label>
+      <textarea id="colar" placeholder="Cole a mensagem de confirmação aqui"></textarea>
+      <p class="erro" id="erro-colar" hidden></p>
+    </div>
+    <button class="btn btn-pri" type="button" id="add-msg">Adicionar à lista</button>
+    <details>
+      <summary style="cursor:pointer;color:var(--lilas-claro)">Adicionar alguém na mão</summary>
+      <div style="display:flex;flex-direction:column;gap:12px;margin-top:12px">
+        <div class="linha2">
+          <div style="min-width:0"><label for="m-nome">Nome</label><input type="text" id="m-nome"></div>
+          <div class="passo"><button type="button" id="m-menos" aria-label="Menos uma pessoa">−</button><output id="m-pes" style="color:var(--creme)">1</output><button type="button" id="m-mais" aria-label="Mais uma pessoa">+</button></div>
+        </div>
+        <button class="btn btn-sec" style="color:var(--creme);border-color:var(--creme)" type="button" id="add-man">Adicionar</button>
+      </div>
+    </details>
+    <ul class="lista" id="lista"></ul>
+    <div id="resp-area" hidden>
+      <p class="sub" style="margin:0 0 8px">Não consegui copiar sozinha. Selecionei a resposta: copie e cole na conversa.</p>
+      <div class="resp-box" id="resp-box"></div>
+    </div>
+    <p class="vazio" id="vazio">Ninguém na lista ainda. Quando chegar a primeira confirmação no WhatsApp, cole a mensagem acima.</p>
+    <p class="erro" id="erro-db" hidden style="color:var(--laranja)"></p>
+  </section>
+</div>
+<svg class="ondas" viewBox="0 0 400 120" preserveAspectRatio="none" aria-hidden="true">
+  <path d="M0 40 C 80 0, 140 70, 220 40 S 340 0, 400 30 L400 120 L0 120Z" fill="#b79de0"/>
+  <path d="M0 70 C 90 40, 150 100, 230 70 S 350 40, 400 60 L400 120 L0 120Z" fill="#f0a658"/>
+  <path d="M0 98 C 90 80, 160 118, 240 98 S 350 82, 400 95 L400 120 L0 120Z" fill="#fdf1e2"/>
+</svg>
+
+<script>
+const $=id=>document.getElementById(id);
+const TAG="[DESPEDIDA TI]";
+let pes=1, recusa=false;
+function nPessoasTxt(n){return n===1?"só você":"você + "+(n-1)}
+function setPes(n){pes=Math.max(1,Math.min(20,n));$("pessoas").textContent=pes;$("pessoas-txt").textContent=nPessoasTxt(pes)}
+$("menos").onclick=()=>setPes(pes-1);$("mais").onclick=()=>setPes(pes+1);
+
+function montar(){
+  const nome=$("nome").value.trim();
+  if(!nome){$("erro-nome").hidden=false;$("nome").focus();return null}
+  $("erro-nome").hidden=true;
+  const obs=$("obs").value.trim();
+  if(recusa) return TAG+"\nNão vou conseguir ir 😢\nNome: "+nome+(obs?"\nRecado: "+obs:"");
+  return TAG+"\nConfirmo presença na despedida! 🎉\nNome: "+nome+"\nPessoas: "+pes+(obs?"\nRecado: "+obs:"");
+}
+function mostrar(){
+  const t=montar(); if(!t) return;
+  $("msg").textContent=t;
+  $("zap").href="https://wa.me/5567992190016?text="+encodeURIComponent(t);
+  $("feito-tit").textContent=recusa?"Que pena! Avisa a Ti":"Falta só enviar!";
+  $("form-area").hidden=true;$("feito").hidden=false;$("copiado").hidden=true;
+  $("rsvp").scrollIntoView({behavior:"smooth",block:"start"});
+}
+$("confirmar").onclick=()=>{recusa=false;mostrar()};
+$("naovou").onclick=()=>{recusa=true;mostrar()};
+$("voltar").onclick=()=>{$("feito").hidden=true;$("form-area").hidden=false};
+$("copiar").onclick=()=>{
+  const t=$("msg").textContent;
+  const ok=()=>{$("copiado").hidden=false};
+  try{navigator.clipboard.writeText(t).then(ok,()=>sel())}catch(e){sel()}
+  function sel(){const r=document.createRange();r.selectNodeContents($("msg"));const s=getSelection();s.removeAllRanges();s.addRange(r);$("copiado").textContent="Selecionei a mensagem. Copie e cole na conversa com a Ti.";ok()}
+};
+
+/* ---------- área da dona ---------- */
+let mPes=1;
+function setM(n){mPes=Math.max(1,Math.min(20,n));$("m-pes").textContent=mPes}
+$("m-menos").onclick=()=>setM(mPes-1);$("m-mais").onclick=()=>setM(mPes+1);
+
+function parse(txt){
+  const g=k=>{const m=txt.match(new RegExp("^\\s*"+k+"\\s*:\\s*(.+)$","im"));return m?m[1].trim():""};
+  const nome=g("Nome"); if(!nome) return null;
+  const nao=/não vou conseguir/i.test(txt);
+  return {nome, pessoas:nao?0:(parseInt(g("Pessoas"),10)||1), recado:g("Recado"), vai:!nao};
+}
+function primeiroNome(n){return String(n).trim().split(/\s+/)[0]}
+function resposta(r){
+  const n=primeiroNome(r.nome);
+  if(!r.vai) return "Ahh, que pena, "+n+"! Obrigada por avisar 💜 Vou sentir sua falta. Se mudar de ideia, me fala!";
+  const qtd=r.pessoas>1?" ("+r.pessoas+" pessoas)":"";
+  return "Oba, "+n+"! Sua presença tá confirmada"+qtd+" ✅\n\n📅 Domingo, 15/11, a partir das 8h\n📍 Espaço de Lazer Trindade, R. Maria Mécia Machado, 500, Jd. Ibirapuera\n\nNão esquece a roupa de banho e sua bebida. Te espero! 🏖️";
+}
+function copiarResposta(r,btn){
+  const t=resposta(r);
+  const feito=()=>{btn.textContent="Copiada!";btn.classList.add("ok");$("resp-area").hidden=true;setTimeout(()=>{btn.textContent="Copiar resposta";btn.classList.remove("ok")},2000)};
+  const falha=()=>{const box=$("resp-box");box.textContent=t;$("resp-area").hidden=false;const rg=document.createRange();rg.selectNodeContents(box);const sl=getSelection();sl.removeAllRanges();sl.addRange(rg);box.scrollIntoView({block:"nearest"})};
+  try{navigator.clipboard.writeText(t).then(feito,falha)}catch(e){falha()}
+}
+function slug(s){return s.normalize("NFD").replace(/[̀-ͯ]/g,"").toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"").slice(0,60)||"x"}
+
+(async()=>{
+  const user=await claude.use("user");
+  if(!(user&&await user.isOwner())) return;
+  const db=await claude.use("db");
+  $("painel").hidden=false;
+  if(!db){$("erro-db").hidden=false;$("erro-db").textContent="A lista não carregou agora. Recarregue a página para tentar de novo.";return}
+  const col=db.collection("confirmados");
+  col.onSnapshot(snap=>{
+    const rows=(snap.docs||[]).map(d=>({id:d.id,...(d.data()||{})}));
+    rows.sort((a,b)=>(b.vai-a.vai)||String(a.nome).localeCompare(String(b.nome),"pt-BR"));
+    const vao=rows.filter(r=>r.vai);
+    $("n-conf").textContent=vao.length;
+    $("n-pes").textContent=vao.reduce((s,r)=>s+(Number(r.pessoas)||0),0);
+    $("vazio").hidden=rows.length>0;
+    const ul=$("lista");ul.replaceChildren();
+    for(const r of rows){
+      const li=document.createElement("li");
+      const nm=document.createElement("div");nm.className="nm";nm.textContent=r.nome;
+      const det=r.recado||"";
+      if(det||!r.vai){const s=document.createElement("small");s.textContent=r.vai?det:("Não vai"+(r.recado?" · "+r.recado:""));nm.append(s)}
+      const p=document.createElement("span");p.className="pill"+(r.vai?"":" nao-vai");p.textContent=r.vai?(r.pessoas+(r.pessoas==1?" pessoa":" pessoas")):"não vai";
+      const del=document.createElement("button");del.className="del";del.type="button";del.textContent="×";del.setAttribute("aria-label","Tirar "+r.nome+" da lista");
+      del.onclick=()=>col.doc(r.id).delete().catch(()=>{});
+      const rb=document.createElement("button");rb.className="resp";rb.type="button";rb.textContent="Copiar resposta";
+      rb.setAttribute("aria-label","Copiar resposta pronta para "+r.nome);
+      rb.onclick=()=>copiarResposta(r,rb);
+      li.append(nm,p,rb,del);ul.append(li);
+    }
+  },err=>{$("erro-db").hidden=false;$("erro-db").textContent="Não consegui ler a lista ("+(err&&err.code||"erro")+")."});
+  async function salvar(r){
+    try{await col.doc(slug(r.nome)).set({...r,em:new Date().toISOString()});return true}
+    catch(e){$("erro-db").hidden=false;$("erro-db").textContent="Não consegui salvar. Tente de novo.";return false}
+  }
+  $("add-msg").onclick=async()=>{
+    const r=parse($("colar").value);
+    if(!r){$("erro-colar").hidden=false;$("erro-colar").textContent="Não achei a linha \"Nome:\" nessa mensagem. Cole a mensagem inteira ou use \"Adicionar alguém na mão\".";return}
+    $("erro-colar").hidden=true;
+    if(await salvar(r)) $("colar").value="";
+  };
+  $("add-man").onclick=async()=>{
+    const nome=$("m-nome").value.trim(); if(!nome){$("m-nome").focus();return}
+    if(await salvar({nome,pessoas:mPes,recado:"",vai:true})){$("m-nome").value="";setM(1)}
+  };
+})();
+</script>
