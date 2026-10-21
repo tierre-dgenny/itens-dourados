@@ -138,8 +138,7 @@
     "photo": "images/ar-electrolux.jpg",
     "min": 650,
     "max": 900,
-    "status": "reservado",
-    "reservedFor": "Letícia"
+    "status": "vendido"
   },
   {
     "name": "Cooktop 5 bocas Fischer",
