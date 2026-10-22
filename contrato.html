@@ -49,6 +49,10 @@
   .sign{display:grid;grid-template-columns:1fr 1fr;gap:40px;margin-top:56px;break-inside:avoid}
   .sign div{border-top:1px solid #000;text-align:center;padding-top:6px;font-size:13px}
   @media(max-width:600px){.doc{padding:20px 16px}.item-box{flex-direction:column}.item-box img,.item-box .nophoto{width:100%;height:auto;aspect-ratio:4/3}.sign{grid-template-columns:1fr}}
+  .doc.pdfmode{font-size:13px}
+  .doc.pdfmode .item-box{flex-direction:row!important}
+  .doc.pdfmode .item-box img,.doc.pdfmode .item-box .nophoto{width:150px!important;height:112px!important;aspect-ratio:auto!important}
+  .doc.pdfmode .sign{grid-template-columns:1fr 1fr!important}
   @media print{
     body{background:#fff}
     .form,.noprint{display:none!important}
@@ -99,6 +103,13 @@
       <div><label for="saldoForma">Forma de pagamento do saldo</label>
         <select id="saldoForma"><option>Pix</option><option>Cartão de crédito</option><option>Dinheiro</option><option>Pix ou cartão de crédito</option></select></div>
     </div>
+    <div class="row">
+      <div><label for="parcMax">Opções de parcelamento sem juros (saldo)</label>
+        <select id="parcMax"></select></div>
+      <div><label for="parcEsc">Opção escolhida</label>
+        <select id="parcEsc"><option value="0">Deixar em branco (escolher na assinatura)</option></select></div>
+    </div>
+    <label for="parcVenc">Vencimento da 1ª parcela (Pix/dinheiro)</label><input id="parcVenc" type="date">
     <div class="summary" id="summary"></div>
   </fieldset>
 
@@ -145,6 +156,23 @@ const localISO = `${today.getFullYear()}-${pad(today.getMonth()+1)}-${pad(today.
 $('pagoData').value = localISO;
 const termoNum = 'Nº ' + localISO.replace(/-/g,'') + '-' + pad(today.getHours()) + pad(today.getMinutes());
 
+$('parcMax').innerHTML = Array.from({length:12},(_,k)=>k+1).map(n=>`<option value="${n}">${n===1?'Só à vista':'Até '+n+'x sem juros'}</option>`).join('');
+$('parcVenc').value = localISO;
+function syncParcEsc(){
+  const max = +$('parcMax').value, cur = +$('parcEsc').value;
+  $('parcEsc').innerHTML = '<option value="0">Deixar em branco (escolher na assinatura)</option>' + Array.from({length:max},(_,k)=>k+1).map(n=>`<option value="${n}">${n===1?'À vista (1x)':n+'x sem juros'}</option>`).join('');
+  $('parcEsc').value = cur <= max ? cur : 0;
+}
+function split(total, n){
+  const c = Math.round(total*100), base = Math.floor(c/n), arr = Array(n).fill(base);
+  arr[n-1] += c - base*n; return arr.map(x=>x/100);
+}
+function addMonths(iso, m){
+  if(!iso) return '';
+  const [y,mo,d] = iso.split('-').map(Number); const dt = new Date(y, mo-1+m, 1);
+  const last = new Date(dt.getFullYear(), dt.getMonth()+1, 0).getDate();
+  return `${dt.getFullYear()}-${pad(dt.getMonth()+1)}-${pad(Math.min(d,last))}`;
+}
 function selected(){
   return [...document.querySelectorAll('.it')].filter(r=>r.querySelector('input[type=checkbox]').checked).map(r=>{
     const it = ITEMS[+r.dataset.i];
@@ -180,9 +208,30 @@ function render(){
       </div>
     </div>`).join('') : '<p><i>Nenhum item selecionado.</i></p>';
 
-  const saldoTxt = haver > 0
-    ? `O saldo em haver de <b>${fmt(haver)}</b> será pago pelo COMPRADOR via <b>${esc($('saldoForma').value)}</b> até a data da entrega/retirada (<b>${entrega}</b>), antes da retirada do(s) item(ns).`
-    : `O valor negociado foi <b>quitado integralmente</b> na assinatura deste termo.`;
+  const forma = $('saldoForma').value;
+  const isCard = /cart/i.test(forma);
+  const pMax = +$('parcMax').value, pEsc = +$('parcEsc').value;
+  let saldoTxt, parcHtml = '', retiradaTxt = 'A retirada fica condicionada à quitação do saldo em haver.';
+  if (haver <= 0) {
+    saldoTxt = `O valor negociado foi <b>quitado integralmente</b> na assinatura deste termo.`;
+  } else if (pMax <= 1) {
+    saldoTxt = `O saldo em haver de <b>${fmt(haver)}</b> será pago pelo COMPRADOR via <b>${esc(forma)}</b> até a data da entrega/retirada (<b>${entrega}</b>), antes da retirada do(s) item(ns).`;
+  } else {
+    const opts = Array.from({length:pMax},(_,k)=>k+1).map(n=>{ const s=split(haver,n); return `<tr${n===pEsc?' class="hl"':''}><td>${n===pEsc?'☒':'☐'} ${n===1?'À vista (1x)':n+'x sem juros'}</td><td>${n===1?fmt(haver):(s[0]===s[n-1]?`${n} × ${fmt(s[0])}`:`${n-1} × ${fmt(s[0])} + 1 × ${fmt(s[n-1])}`)}</td></tr>`; }).join('');
+    parcHtml = `<p style="margin-top:10px"><b>Opções de parcelamento sem juros do saldo (${fmt(haver)})</b>${pEsc?'':' — o COMPRADOR marca a opção escolhida:'}</p><table class="vals">${opts}</table>`;
+    if (pEsc) {
+      const s = split(haver,pEsc);
+      saldoTxt = `O saldo em haver de <b>${fmt(haver)}</b> será pago pelo COMPRADOR via <b>${esc(forma)}</b>, ${pEsc===1?'à vista':`em <b>${pEsc} parcelas sem juros</b>`}, conforme abaixo.`;
+      if (!isCard && pEsc > 1) {
+        parcHtml += `<p style="margin-top:10px"><b>Cronograma das parcelas</b></p><table class="vals"><tr class="hl"><td>Parcela</td><td>Vencimento · Valor</td></tr>${s.map((v,k)=>`<tr><td>${k+1}ª parcela</td><td>${fdate(addMonths($('parcVenc').value,k))} · ${fmt(v)}</td></tr>`).join('')}</table>`;
+        retiradaTxt = 'A retirada fica condicionada ao pagamento das parcelas vencidas até a data da retirada; as parcelas seguintes serão pagas nas datas do cronograma acima. O atraso de qualquer parcela permite ao VENDEDOR cobrar o saldo restante de uma só vez.';
+      } else if (isCard && pEsc > 1) {
+        saldoTxt += ` O parcelamento será feito na maquininha do VENDEDOR, no cartão de crédito do COMPRADOR, até a data da retirada.`;
+      }
+    } else {
+      saldoTxt = `O saldo em haver de <b>${fmt(haver)}</b> será pago pelo COMPRADOR via <b>${esc(forma)}</b>, à vista ou parcelado sem juros, conforme a opção marcada abaixo, até a data da entrega/retirada (<b>${entrega}</b>).`;
+    }
+  }
 
   $('doc').innerHTML = `
     <h1>Termo de Compromisso de Compra, Venda e Entrega de Bens Móveis Usados</h1>
@@ -200,17 +249,18 @@ function render(){
 
     <h3>3. Valores</h3>
     <table class="vals">
-      <tr><td>Valor anunciado</td><td>${anuncTxt}</td></tr>
+      ${sel.length ? sel.map((i,k)=>`<tr><td>Item ${k+1}: ${esc(i.name)}</td><td>${fmt(i.neg)}</td></tr>`).join('') : `<tr><td>Valor anunciado</td><td>${anuncTxt}</td></tr>`}
       <tr class="hl"><td>Valor negociado (total)</td><td>${fmt(neg)}</td></tr>
       <tr><td>Valor pago em ${fdate($('pagoData').value)} via ${esc($('pagoForma').value)}</td><td>${fmt(pago)}</td></tr>
       <tr class="hl"><td>Valor em haver (saldo a pagar)</td><td>${fmt(haver)}</td></tr>
     </table>
-    <p>${saldoTxt} Eventuais taxas de cartão de crédito são de responsabilidade do COMPRADOR.</p>
+    <p>${saldoTxt} Eventuais taxas de cartão de crédito (maquininha) são de responsabilidade do COMPRADOR.</p>
+    ${parcHtml}
 
     <h3>4. Reserva e entrega</h3>
     <p>A partir da assinatura deste termo e do pagamento acima, o(s) item(ns) fica(m) reservado(s) ao COMPRADOR e não será(ão) oferecido(s) a terceiros.</p>
     <p>O VENDEDOR se compromete a disponibilizar o(s) item(ns) para retirada <b>até ${entrega}</b>, no seguinte local: ${line($('endereco').value,260)}. O VENDEDOR permanece com a posse e o uso do(s) item(ns) até essa data, comprometendo-se a conservá-lo(s) no estado atual, ressalvado o desgaste natural de uso.</p>
-    <p>Frete, retirada, desmontagem e montagem são de responsabilidade do COMPRADOR. A retirada fica condicionada à quitação do saldo em haver.</p>
+    <p>Frete, retirada, desmontagem e montagem são de responsabilidade do COMPRADOR. ${retiradaTxt}</p>
 
     <h3>5. Desistência e não entrega</h3>
     <p>${desist}</p>
@@ -238,9 +288,22 @@ fetch('items.json?t='+Date.now(),{cache:'no-store'}).then(r=>r.json()).then(item
       <div>${esc(it.name)}<small>Anunciado: ${it.min===it.max?fmt(it.min):fmt(it.min)+' a '+fmt(it.max)}${it.status==='reservado'&&it.reservedFor?' · reservado p/ '+esc(it.reservedFor):''}${it.status==='vendido'?' · vendido':''}</small></div>
       <input type="number" min="0" step="0.01" value="${it.min}" aria-label="Valor negociado">
     </div>`).join('');
+  applyPreset();
   render();
 }).catch(()=>{$('items').textContent='Não foi possível carregar os itens. Recarregue a página.';});
 
+function applyPreset(){
+  const q = new URLSearchParams(location.search);
+  const norm = s => String(s).normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().trim();
+  if (q.get('c')) $('cNome').value = q.get('c');
+  if (q.get('parc')) { $('parcMax').value = q.get('parc'); syncParcEsc(); }
+  (q.get('itens')||'').split(';').filter(Boolean).forEach(pair=>{
+    const [pref,val] = pair.split('~'); const rows = [...document.querySelectorAll('.it')];
+    const row = rows.find(r => norm(ITEMS[+r.dataset.i].name).startsWith(norm(pref)));
+    if (row) { row.querySelector('input[type=checkbox]').checked = true; if (val) row.querySelector('input[type=number]').value = val; }
+  });
+}
+$('parcMax').addEventListener('change', syncParcEsc); syncParcEsc();
 document.addEventListener('input', render);
 document.addEventListener('change', render);
 $('print').onclick = () => window.print();
@@ -251,7 +314,7 @@ $('pdf').onclick = async () => {
   const nome = ($('cNome').value.trim() || 'comprador').normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^a-zA-Z0-9]+/g,'-').toLowerCase();
   const filename = `termo-${nome}.pdf`;
   const src = $('doc');
-  const el = src.cloneNode(true); el.removeAttribute('id');
+  const el = src.cloneNode(true); el.removeAttribute('id'); el.classList.add('pdfmode');
   el.style.cssText = 'width:700px;box-sizing:border-box;padding:24px 28px;border:0;margin:0;background:#fff;';
   const holder = document.createElement('div');
   holder.style.cssText = 'position:fixed;left:0;top:0;width:700px;z-index:-1;opacity:1;pointer-events:none;';
