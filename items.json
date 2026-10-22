@@ -195,5 +195,13 @@
     "min": 80,
     "max": 80,
     "status": "disponivel"
+  },
+  {
+    "name": "Notebook Samsung Book",
+    "note": "Intel Core i5, 8GB de RAM, SSD de 256GB, tela 15,6\" Full HD, Windows 11.",
+    "photo": null,
+    "min": 1000,
+    "max": 1000,
+    "status": "disponivel"
   }
 ]
